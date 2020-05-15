@@ -1,5 +1,8 @@
 package edu.iis.mto.multithread;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+
 public class BetterRadar {
 
     private PatriotBattery battery;
@@ -8,6 +11,8 @@ public class BetterRadar {
     public BetterRadar(PatriotBattery battery, int amountOfPatriotsForOneScud) {
         this.battery = battery;
         this.amountOfPatriotsForOneScud = amountOfPatriotsForOneScud;
+
+        doNothing().when(this.battery).launchPatriot(any(Scud.class));
     }
 
     public void notice(Scud enemyMissle) {
