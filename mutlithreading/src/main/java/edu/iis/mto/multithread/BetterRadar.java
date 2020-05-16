@@ -12,6 +12,6 @@ public class BetterRadar {
 	}
 	
 	public void notice(Scud enemyMissle) {
-		this.aimingMechanism.launchRocketsTo(enemyMissle, this.rocketsToLaunch);
+		this.aimingMechanism.launchRocketsAgainst(enemyMissle, this.rocketsToLaunch);
 	}
 }
