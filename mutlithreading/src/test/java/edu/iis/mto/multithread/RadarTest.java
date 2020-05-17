@@ -21,10 +21,9 @@ public class RadarTest {
     @RepeatedTest(value = 10)
     public void launchPatriotOnceWhenNoticesAScudMissle() {
         numberOfMissles = 1;
-        LaunchPatriotic launchPatriotic = new LaunchPatrioticTask(numberOfMissles);
+        LaunchPatriotic launchPatriotic = new LaunchPatrioticTask();
         BetterRadar radar = new BetterRadar(batteryMock, launchPatriotic, numberOfMissles);
         radar.notice(enemyMissle);
-        ((LaunchPatrioticTask) launchPatriotic).waitForAllMissles();
         verify(batteryMock).launchPatriot(enemyMissle);
     }
 }
