@@ -17,7 +17,7 @@ public class BetterRadar {
     }
 
     public void notice(Scud enemyMissile){
-
+        system.executeDefenseCommand(prepareTaskForDefenseSystem(enemyMissile));
     }
 
     private Runnable prepareTaskForDefenseSystem(Scud noticedMissile){
