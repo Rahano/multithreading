@@ -20,7 +20,7 @@ public class RadarTest {
             ((Runnable) invocationOnMock.getArgument(0)).run();
             return null;
         }).when(system)
-          .executeDefenseCommand(any(Runnable.class));
+                .executeDefenseCommand(any(Runnable.class));
 
         batteryMock = mock(PatriotBattery.class);
         enemyMissile = new Scud();
@@ -43,10 +43,10 @@ public class RadarTest {
     }
 
     @Test
-    public void applyingNullDefenseSystemShouldCauseNPE(){
+    public void applyingNullDefenseSystemShouldCauseNPE() {
         BetterRadar radar = new BetterRadar(batteryMock, 1);
         radar.setDefenseSystem(null);
-        assertThrows(NullPointerException.class, ()-> radar.notice(enemyMissile));
+        assertThrows(NullPointerException.class, () -> radar.notice(enemyMissile));
     }
 
     @RepeatedTest(10)
