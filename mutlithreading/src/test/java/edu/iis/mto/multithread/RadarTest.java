@@ -49,5 +49,12 @@ public class RadarTest {
         assertThrows(NullPointerException.class, ()-> radar.notice(enemyMissile));
     }
 
+    @RepeatedTest(10)
+    public void launchPatriotManyTimesWhenNoticesAScudMissileToDestroyItCompletely() {
+        BetterRadar radar = new BetterRadar(batteryMock, 100);
+        radar.setDefenseSystem(system);
+        radar.notice(enemyMissile);
+        verify(batteryMock, times(100)).launchPatriot(enemyMissile);
+    }
 
 }

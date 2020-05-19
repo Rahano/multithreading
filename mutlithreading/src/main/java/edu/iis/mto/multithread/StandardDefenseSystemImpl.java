@@ -5,10 +5,5 @@ public class StandardDefenseSystemImpl implements DefenseSystem {
     public void executeDefenseCommand(Runnable task) {
         var th = new Thread(task);
         th.start();
-        try {
-            th.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
