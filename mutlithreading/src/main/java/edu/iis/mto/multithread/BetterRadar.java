@@ -10,6 +10,7 @@ public class BetterRadar {
     public BetterRadar(PatriotBattery battery, int missilesCount){
         this.battery = battery;
         this.missilesCount = missilesCount;
+        this.system = new StandardDefenseSystemImpl();
     }
 
     public void setDefenseSystem(DefenseSystem system){
