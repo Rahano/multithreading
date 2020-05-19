@@ -15,7 +15,7 @@ public class BetterRadar {
 
     }
 
-    private Runnable prepareTaskForDefendingSystem(Scud noticedMissile){
+    private Runnable prepareTaskForDefenseSystem(Scud noticedMissile){
         return () -> IntStream.range(0, missilesCount).forEach(patriot -> battery.launchPatriot(noticedMissile));
     }
 }
