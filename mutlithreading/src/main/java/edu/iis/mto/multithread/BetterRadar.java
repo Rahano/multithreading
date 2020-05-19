@@ -12,7 +12,7 @@ public class BetterRadar {
         this.missilesCount = missilesCount;
     }
 
-    public void SetDefenseSystem(DefenseSystem system){
+    public void setDefenseSystem(DefenseSystem system){
         this.system = system;
     }
 
