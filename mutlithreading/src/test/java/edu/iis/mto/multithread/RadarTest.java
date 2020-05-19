@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
 public class RadarTest {
 
     private DefenseSystem system;
-
+    
     @BeforeEach
     void prepareDefenseSystemMock() {
         system = mock(DefenseSystem.class);
@@ -28,7 +28,17 @@ public class RadarTest {
         radar.setDefenseSystem(system);
         Scud enemyMissile = new Scud();
         radar.notice(enemyMissile);
-        verify(batteryMock).launchPatriot(enemyMissile);
+        verify(batteryMock, times(1)).launchPatriot(enemyMissile);
+    }
+
+    @RepeatedTest(10)
+    public void launchPatriotZeroWhenNoticesAScudMissileBecauseOfLackOfMissiles() {
+        PatriotBattery batteryMock = mock(PatriotBattery.class);
+        BetterRadar radar = new BetterRadar(batteryMock, 0);
+        radar.setDefenseSystem(system);
+        Scud enemyMissile = new Scud();
+        radar.notice(enemyMissile);
+        verify(batteryMock, times(0)).launchPatriot(enemyMissile);
     }
 
     @Test
@@ -39,4 +49,6 @@ public class RadarTest {
         Scud enemyMissile = new Scud();
         assertThrows(NullPointerException.class, ()-> radar.notice(enemyMissile));
     }
+
+
 }
