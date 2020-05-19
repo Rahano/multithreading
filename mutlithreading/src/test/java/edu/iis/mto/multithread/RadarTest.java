@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
 public class RadarTest {
 
     private DefenseSystem system;
-    
+
     @BeforeEach
     void prepareDefenseSystemMock() {
         system = mock(DefenseSystem.class);
@@ -32,7 +32,7 @@ public class RadarTest {
     }
 
     @RepeatedTest(10)
-    public void launchPatriotZeroWhenNoticesAScudMissileBecauseOfLackOfMissiles() {
+    public void doNotLaunchPatriotWhenNoticesAScudMissileIfThereIsTheLackOfPatriotMissiles() {
         PatriotBattery batteryMock = mock(PatriotBattery.class);
         BetterRadar radar = new BetterRadar(batteryMock, 0);
         radar.setDefenseSystem(system);
