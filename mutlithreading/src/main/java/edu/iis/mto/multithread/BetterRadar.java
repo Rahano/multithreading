@@ -1,17 +1,17 @@
 package edu.iis.mto.multithread;
 
 public class BetterRadar {
-    private PatriotBattery controller;
-    private int batteryCounter;
+    private final int volleySize;
+    private PatriotBattery battery;
+    private ControlSystem control;
 
-    public BetterRadar(PatriotBattery controller, int batteryCounter) {
-        this.controller = controller;
-        this.batteryCounter = batteryCounter;
+    public BetterRadar(ControlSystem control, PatriotBattery battery, int volleySize) {
+        this.control = control;
+        this.battery = battery;
+        this.volleySize = volleySize;
     }
 
     public void notice(Scud enemyMissile) {
-        for (int i = 0; i < batteryCounter; i++) {
-            controller.launchPatriot(enemyMissile);
-        }
+        control.launchVolley(battery, volleySize, enemyMissile);
     }
 }
