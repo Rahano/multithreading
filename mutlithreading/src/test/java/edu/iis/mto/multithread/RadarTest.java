@@ -5,7 +5,6 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 public class RadarTest {
     private Scud enemyMissle;
@@ -21,7 +20,7 @@ public class RadarTest {
     @RepeatedTest(value = 10)
     public void launchPatriotOnceWhenNoticesAScudMissle() {
         numberOfMissles = 1;
-        LaunchPatriotic launchPatriotic = new LaunchPatrioticTask();
+        LaunchPatriotic launchPatriotic = new LaunchPatrioticMock(numberOfMissles);
         BetterRadar radar = new BetterRadar(batteryMock, launchPatriotic, numberOfMissles);
         radar.notice(enemyMissle);
         verify(batteryMock).launchPatriot(enemyMissle);
