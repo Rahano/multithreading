@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 public class RadarTest {
 
     @Test
-    public void launchPatriotOnceWhenNoticesAScudMissle() {
+    public void launchPatriotOnceWhenNoticesAScudMissile() {
         PatriotBattery batteryMock = mock(PatriotBattery.class);
         Radar radar = new Radar(batteryMock);
-        Scud enemyMissle = new Scud();
-        radar.notice(enemyMissle);
-        verify(batteryMock).launchPatriot(enemyMissle);
+        Scud enemyMissile = new Scud();
+        radar.notice(enemyMissile);
+        verify(batteryMock).launchPatriot(enemyMissile);
     }
 
 }
