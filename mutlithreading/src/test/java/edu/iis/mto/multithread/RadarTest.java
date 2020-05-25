@@ -25,14 +25,15 @@ public class RadarTest {
 
     @RepeatedTest(10)
     public void launchPatriotZeroTimesWhenNoticesAScudMissile() {
-        launchTask.setNumberOfLaunches(0);
+        int nLaunches = 0;
+        launchTask.setNumberOfLaunches(nLaunches);
         radar.notice(enemyMissile);
         try {
             launchTask.join();
         } catch (InterruptedException e){
             fail("Interrupted");
         };
-        verify(batteryMock, times(0)).launchPatriot(enemyMissile);
+        verify(batteryMock, times(nLaunches)).launchPatriot(enemyMissile);
     }
 
     @RepeatedTest(10)
@@ -47,4 +48,16 @@ public class RadarTest {
         verify(batteryMock).launchPatriot(enemyMissile);
     }
 
+    @RepeatedTest(10)
+    public void launchPatriotSixTimesWhenNoticesAScudMissile() {
+        int nLaunches = 6;
+        launchTask.setNumberOfLaunches(nLaunches);
+        radar.notice(enemyMissile);
+        try {
+            launchTask.join();
+        } catch (InterruptedException e){
+            fail("Interrupted");
+        };
+        verify(batteryMock, times(nLaunches)).launchPatriot(enemyMissile);
+    }
 }
