@@ -11,18 +11,21 @@ public class RadarTest {
 
     private PatriotBattery batteryMock;
     private Scud enemyMissile;
+    private LaunchPatriotTask launchTask;
+    private BetterRadar radar;
 
     @BeforeEach
     public void init()
     {
         batteryMock = mock(PatriotBattery.class);
+        launchTask = new LaunchPatriotTask(batteryMock);
+        radar = new BetterRadar(launchTask);
         enemyMissile = new Scud();
     }
 
     @RepeatedTest(10)
     public void launchPatriotZeroTimesWhenNoticesAScudMissile() {
-        LaunchPatriotTask launchTask = new LaunchPatriotTask(batteryMock, 0);
-        BetterRadar radar = new BetterRadar(launchTask);
+        launchTask.setNumberOfLaunches(0);
         radar.notice(enemyMissile);
         try {
             launchTask.join();
@@ -34,8 +37,7 @@ public class RadarTest {
 
     @RepeatedTest(10)
     public void launchPatriotOnceWhenNoticesAScudMissile() {
-        LaunchPatriotTask launchTask = new LaunchPatriotTask(batteryMock, 1);
-        BetterRadar radar = new BetterRadar(launchTask);
+        launchTask.setNumberOfLaunches(1);
         radar.notice(enemyMissile);
         try {
             launchTask.join();
