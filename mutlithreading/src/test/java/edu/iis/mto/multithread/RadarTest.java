@@ -1,5 +1,6 @@
 package edu.iis.mto.multithread;
 
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -10,9 +11,15 @@ public class RadarTest {
     @Test
     public void launchPatriotOnceWhenNoticesAScudMissile() {
         PatriotBattery batteryMock = mock(PatriotBattery.class);
-        Radar radar = new Radar(batteryMock);
+        LaunchPatriotTask launchTask = new LaunchPatriotTask(batteryMock);
+        BetterRadar radar = new BetterRadar(launchTask);
         Scud enemyMissile = new Scud();
         radar.notice(enemyMissile);
+        try {
+            launchTask.join();
+        } catch (InterruptedException e){
+            fail("Interrupted");
+        };
         verify(batteryMock).launchPatriot(enemyMissile);
     }
 
