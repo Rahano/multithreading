@@ -11,7 +11,7 @@ public class RadarTest {
     @Test
     public void launchPatriotOnceWhenNoticesAScudMissile() {
         PatriotBattery batteryMock = mock(PatriotBattery.class);
-        LaunchPatriotTask launchTask = new LaunchPatriotTask(batteryMock);
+        LaunchPatriotTask launchTask = new LaunchPatriotTask(batteryMock, 1);
         BetterRadar radar = new BetterRadar(launchTask);
         Scud enemyMissile = new Scud();
         radar.notice(enemyMissile);
