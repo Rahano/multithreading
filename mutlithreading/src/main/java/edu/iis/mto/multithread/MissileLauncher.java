@@ -4,7 +4,7 @@ public class MissileLauncher implements Runnable {
     private Scud enemyMissile;
     private int missilesToLaunch;
     private PatriotBattery battery;
-    public MissileLauncher(Scud enemyMissile, int missilesToLaunch, PatriotBattery battery){
+    MissileLauncher(Scud enemyMissile, int missilesToLaunch, PatriotBattery battery){
         this.enemyMissile = enemyMissile;
         this.missilesToLaunch = missilesToLaunch;
         this.battery = battery;
