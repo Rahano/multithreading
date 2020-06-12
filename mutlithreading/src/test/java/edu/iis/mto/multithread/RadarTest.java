@@ -1,19 +1,61 @@
 package edu.iis.mto.multithread;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.IntStream;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
 public class RadarTest {
 
-    @Test
+    BetterRadar betterRadar;
+    Scud enemyMissle;
+
+    @Mock
+    PatriotBattery batteryMock;
+
+    @Mock
+    DefenceMechanism defenceMechanism;
+
+    @BeforeEach
+    public void setUp() {
+        enemyMissle = new Scud();
+    }
+
+    @RepeatedTest(value = 10)
     public void launchPatriotOnceWhenNoticesAScudMissle() {
-        PatriotBattery batteryMock = mock(PatriotBattery.class);
-        Radar radar = new Radar(batteryMock);
-        Scud enemyMissle = new Scud();
-        radar.notice(enemyMissle);
-        verify(batteryMock).launchPatriot(enemyMissle);
+        final int MISSILES_COUNT = 1;
+        prepareDefenceMechanism(MISSILES_COUNT);
+        betterRadar = new BetterRadar(batteryMock, MISSILES_COUNT, defenceMechanism);
+        betterRadar.notice(enemyMissle);
+        verify(batteryMock, times(MISSILES_COUNT)).launchPatriot(enemyMissle);
+    }
+
+    @RepeatedTest(value = 10)
+    public void launchPatriotTenTimesWhenNoticesAScudMissle() {
+        final int MISSILES_COUNT = 10;
+        prepareDefenceMechanism(MISSILES_COUNT);
+        betterRadar = new BetterRadar(batteryMock, MISSILES_COUNT, defenceMechanism);
+        betterRadar.notice(enemyMissle);
+        verify(batteryMock, times(MISSILES_COUNT)).launchPatriot(enemyMissle);
+    }
+
+    private void prepareDefenceMechanism(final int missilesCount) {
+        doAnswer(invocation -> {
+            IntStream.range(0, missilesCount)
+                     .forEach(i -> batteryMock.launchPatriot(invocation.getArgument(2, Scud.class)));
+            return null;
+        }).when(defenceMechanism)
+          .defence(any(), anyInt(), any());
     }
 
 }
