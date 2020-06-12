@@ -51,8 +51,12 @@ public class RadarTest {
 
     private void prepareDefenceMechanism(final int missilesCount) {
         doAnswer(invocation -> {
-            IntStream.range(0, missilesCount)
-                     .forEach(i -> batteryMock.launchPatriot(invocation.getArgument(2, Scud.class)));
+            Thread thread = new Thread(() -> {
+                IntStream.range(0, missilesCount)
+                         .forEach(i -> batteryMock.launchPatriot(invocation.getArgument(2, Scud.class)));
+            });
+            thread.start();
+            thread.join();
             return null;
         }).when(defenceMechanism)
           .defence(any(), anyInt(), any());
