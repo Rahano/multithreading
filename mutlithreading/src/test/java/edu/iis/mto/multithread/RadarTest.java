@@ -42,4 +42,32 @@ public class RadarTest {
         radar.notice(enemyMissile);
         verify(batteryMock, times(amount)).launchPatriot(enemyMissile);
     }
+
+    @RepeatedTest(10)
+    public void launchOneHundredPatriotOnceWhenNoticesAScudMissileWithBetterRadarClass() {
+        int amount = 100;
+
+        doAnswer(temp -> {
+            IntStream.range(0, amount).forEach(i -> batteryMock.launchPatriot(temp.getArgument(0)));
+            return 0;
+        }).when(defenseSystem).activateBatteries(any(Scud.class), anyInt());
+
+        BetterRadar radar = new BetterRadar(batteryMock, defenseSystem, amount);
+        radar.notice(enemyMissile);
+        verify(batteryMock, times(amount)).launchPatriot(enemyMissile);
+    }
+
+    @RepeatedTest(10)
+    public void launchZeroPatriotOnceWhenNoticesAScudMissileWithBetterRadarClass() {
+        int amount = 0;
+
+        doAnswer(temp -> {
+            IntStream.range(0, amount).forEach(i -> batteryMock.launchPatriot(temp.getArgument(0)));
+            return 0;
+        }).when(defenseSystem).activateBatteries(any(Scud.class), anyInt());
+
+        BetterRadar radar = new BetterRadar(batteryMock, defenseSystem, amount);
+        radar.notice(enemyMissile);
+        verify(batteryMock, times(amount)).launchPatriot(enemyMissile);
+    }
 }
