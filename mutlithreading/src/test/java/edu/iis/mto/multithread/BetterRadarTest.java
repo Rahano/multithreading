@@ -9,8 +9,8 @@ public class BetterRadarTest {
     @RepeatedTest(value = 3, name = "One rocket volley test")
     public void launchPatriotOnceWhenNoticesAScudMissileAndVolleySizeIs1() {
         PatriotBattery batteryMock = mock(PatriotBattery.class);
-        ControlSystem controlSystem = new TestControlSystem();
-        BetterRadar radar = new BetterRadar(controlSystem, batteryMock, 1);
+        AimingInstruments aimingInstruments = new TestAimingInstruments();
+        BetterRadar radar = new BetterRadar(aimingInstruments, batteryMock, 1);
         Scud enemyMissle = new Scud();
         radar.notice(enemyMissle);
         verify(batteryMock).launchPatriot(enemyMissle);
@@ -19,9 +19,9 @@ public class BetterRadarTest {
     @RepeatedTest(value = 3, name = "Four rockets volley test")
     public void launchPatriotFourTimesWhenNoticesAScudMissileAndVolleySizeIs4() {
         PatriotBattery batteryMock = mock(PatriotBattery.class);
-        ControlSystem controlSystem = new TestControlSystem();
+        AimingInstruments aimingInstruments = new TestAimingInstruments();
         int volleySize = 4;
-        BetterRadar radar = new BetterRadar(controlSystem, batteryMock, volleySize);
+        BetterRadar radar = new BetterRadar(aimingInstruments, batteryMock, volleySize);
         Scud enemyMissle = new Scud();
         radar.notice(enemyMissle);
         verify(batteryMock, times(volleySize)).launchPatriot(enemyMissle);
