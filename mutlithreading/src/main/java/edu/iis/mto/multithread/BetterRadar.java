@@ -1,5 +1,7 @@
 package edu.iis.mto.multithread;
 
+import java.util.stream.IntStream;
+
 public class BetterRadar {
 
     private PatriotBattery battery;
@@ -15,10 +17,7 @@ public class BetterRadar {
     }
 
     public void notice(Scud enemyMissle) {
-        launchPatriot(enemyMissle);
-    }
-
-    private void launchPatriot(Scud enemyMissle) {
-        defenceMechanism.defence(battery, missilesCount, enemyMissle);
+        defenceMechanism.defence(() -> IntStream.range(0, missilesCount)
+                                                .forEach(i -> battery.launchPatriot(enemyMissle)));
     }
 }
