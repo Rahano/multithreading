@@ -16,13 +16,18 @@ public class RadarTest {
         batteryMock = mock(PatriotBattery.class);
         targetMechanismMock = mock(TargetMechanism.class);
         enemyMissile = new Scud();
+
+        doAnswer(i -> {
+            ((Runnable) i.getArgument(0)).run();
+            return null;
+        }).when(targetMechanismMock).launchPatriot(any(Runnable.class));
     }
 
     @RepeatedTest(10)
     public void launchPatriotOnceWhenNoticesAScudMissile() {
         BetterRadar betterRadar = new BetterRadar(batteryMock, targetMechanismMock, 1);
         betterRadar.notice(enemyMissile);
-        verify(targetMechanismMock).launchPatriot(enemyMissile, 1);
+        verify(batteryMock, times(1)).launchPatriot(enemyMissile);
     }
 
 }

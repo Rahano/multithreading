@@ -13,8 +13,10 @@ public class BetterRadar {
     }
 
     public void notice(Scud enemyMissile) {
-        for (int i = 0; i < missileQuantity; i++) {
-            targetMechanism.launchPatriot(enemyMissile, missileQuantity);
-        }
+        targetMechanism.launchPatriot(() -> {
+            for (int i = 0; i < missileQuantity; i++) {
+                battery.launchPatriot(enemyMissile);
+            }
+        });
     }
 }
