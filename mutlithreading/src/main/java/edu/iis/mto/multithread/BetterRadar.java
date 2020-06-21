@@ -13,7 +13,11 @@ public class BetterRadar {
     }
 
     public void notice(Scud enemyMissile) {
-        this.batterySystem.launchPatriot(this.battery, enemyMissile, this.numberOfMissiles);
+        this.batterySystem.launch(() -> {
+            for (int i = 0; i < this.numberOfMissiles; i++) {
+                this.battery.launchPatriot(enemyMissile);
+            }
+        });
     }
 
 }
