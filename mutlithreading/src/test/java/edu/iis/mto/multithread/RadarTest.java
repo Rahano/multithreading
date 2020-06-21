@@ -19,7 +19,7 @@ public class RadarTest {
     public void setUp() {
         this.batteryMock = mock(PatriotBattery.class);
         this.batterySystemMock = mock(BatterySystem.class);
-        this.enemyMissile = mock(Scud.class);
+        this.enemyMissile = new Scud();
 
         this.numberOfMissiles = 5;
         this.betterRadar = new BetterRadar(this.batteryMock, this.batterySystemMock, this.numberOfMissiles);
