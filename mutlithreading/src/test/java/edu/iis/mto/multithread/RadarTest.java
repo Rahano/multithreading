@@ -1,19 +1,73 @@
 package edu.iis.mto.multithread;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.IntStream;
+
+import static org.mockito.Mockito.*;
 
 public class RadarTest {
 
-    @Test
-    public void launchPatriotOnceWhenNoticesAScudMissle() {
-        PatriotBattery batteryMock = mock(PatriotBattery.class);
-        Radar radar = new Radar(batteryMock);
-        Scud enemyMissle = new Scud();
-        radar.notice(enemyMissle);
-        verify(batteryMock).launchPatriot(enemyMissle);
+    private PatriotBattery batteryMock;
+    private DefenseSystem defenseSystem;
+    private Scud enemyMissile;
+
+    @BeforeEach
+    public void initialize() {
+        batteryMock = mock(PatriotBattery.class);
+        defenseSystem = mock(DefenseSystem.class);
+        enemyMissile = mock(Scud.class);
     }
 
+    @RepeatedTest(10)
+    public void launchPatriotOnceWhenNoticesAScudMissile() {
+        PatriotBattery batteryMock = mock(PatriotBattery.class);
+        Radar radar = new Radar(batteryMock);
+        Scud enemyMissile = new Scud();
+        radar.notice(enemyMissile);
+        verify(batteryMock, timeout(100).times(10)).launchPatriot(enemyMissile);
+    }
+
+    @RepeatedTest(10)
+    public void launchOnePatriotOnceWhenNoticesAScudMissileWithBetterRadarClass() {
+        int amount = 1;
+
+        doAnswer(temp -> {
+            IntStream.range(0, amount).forEach(i -> batteryMock.launchPatriot(temp.getArgument(0)));
+            return 0;
+        }).when(defenseSystem).activateBatteries(any(Scud.class), anyInt());
+
+        BetterRadar radar = new BetterRadar(batteryMock, defenseSystem, amount);
+        radar.notice(enemyMissile);
+        verify(batteryMock, times(amount)).launchPatriot(enemyMissile);
+    }
+
+    @RepeatedTest(10)
+    public void launchOneHundredPatriotOnceWhenNoticesAScudMissileWithBetterRadarClass() {
+        int amount = 100;
+
+        doAnswer(temp -> {
+            IntStream.range(0, amount).forEach(i -> batteryMock.launchPatriot(temp.getArgument(0)));
+            return 0;
+        }).when(defenseSystem).activateBatteries(any(Scud.class), anyInt());
+
+        BetterRadar radar = new BetterRadar(batteryMock, defenseSystem, amount);
+        radar.notice(enemyMissile);
+        verify(batteryMock, times(amount)).launchPatriot(enemyMissile);
+    }
+
+    @RepeatedTest(10)
+    public void launchZeroPatriotOnceWhenNoticesAScudMissileWithBetterRadarClass() {
+        int amount = 0;
+
+        doAnswer(temp -> {
+            IntStream.range(0, amount).forEach(i -> batteryMock.launchPatriot(temp.getArgument(0)));
+            return 0;
+        }).when(defenseSystem).activateBatteries(any(Scud.class), anyInt());
+
+        BetterRadar radar = new BetterRadar(batteryMock, defenseSystem, amount);
+        radar.notice(enemyMissile);
+        verify(batteryMock, times(amount)).launchPatriot(enemyMissile);
+    }
 }
