@@ -43,17 +43,12 @@ public class RadarTest {
         radar.notice(enemyMissile);
         verify(batteryMock).launchPatriot(enemyMissile);
     }
-/*
+
     @RepeatedTest(10)
     public void launchPatriotSixTimesWhenNoticesAScudMissile() {
         int nLaunches = 6;
-        launchTask.setNumberOfLaunches(nLaunches);
+        BetterRadar radar = new BetterRadar(launcherMock, nLaunches);
         radar.notice(enemyMissile);
-        try {
-            launchTask.join();
-        } catch (InterruptedException e){
-            fail("Interrupted");
-        };
         verify(batteryMock, times(nLaunches)).launchPatriot(enemyMissile);
     }
-*/}
+}
