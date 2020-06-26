@@ -2,10 +2,12 @@ package edu.iis.mto.multithread;
 
 public class BetterRadar {
 
-    private LaunchPatriotTask launchPatriot;
+    private RocketLauncher rocketLauncher;
+    private int nLaunches;
 
-    public BetterRadar(LaunchPatriotTask launchPatriot) {
-        this.launchPatriot = launchPatriot;
+    public BetterRadar(RocketLauncher rocketLauncher, int nLaunches) {
+        this.rocketLauncher = rocketLauncher;
+        this.nLaunches = nLaunches;
     }
 
     public void notice(Scud enemyMissile) {
@@ -13,7 +15,8 @@ public class BetterRadar {
     }
 
     private void launchPatriot(Scud enemyMissile) {
-        launchPatriot.setEnemyMissile(enemyMissile);
-        launchPatriot.start();
+        for(int i = 0; i < nLaunches; i++) {
+            rocketLauncher.launch(enemyMissile);
+        }
     }
 }
