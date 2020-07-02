@@ -15,8 +15,7 @@ public class Radar {
     private void launchPatriot(Scud enemyMissle) {
         Runnable launchPatriotTask = new Runnable() {
 
-            @Override
-            public void run() {
+            @Override public void run() {
                 for (int i = 0; i < 10; i++) {
                     battery.launchPatriot(enemyMissle);
                 }
@@ -27,3 +26,4 @@ public class Radar {
         launchingThread.start();
     }
 }
+    

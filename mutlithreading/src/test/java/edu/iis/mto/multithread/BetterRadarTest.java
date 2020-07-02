@@ -10,16 +10,20 @@ public class BetterRadarTest {
 
     private Scud enemyMissile;
     private PatriotBattery batteryMock;
+    private LaunchHandler launcher;
 
     @BeforeEach public void prepare() {
         enemyMissile = new Scud();
         batteryMock = mock(PatriotBattery.class);
+        launcher = new TestLauncher();
     }
 
-    @RepeatedTest(1000) public void launchPatriotOnceWhenNoticesAScudMissile() {
+    @RepeatedTest(1000) public void LaunchSetNumberOfMissilesWhenNoticesAScudMissile() {
         int missilesToLaunch = 5;
-        BetterRadar radar = new BetterRadar(batteryMock, missilesToLaunch);
+        BetterRadar radar = new BetterRadar(batteryMock, missilesToLaunch, launcher);
+
         radar.notice(enemyMissile);
+
         verify(batteryMock, times(missilesToLaunch)).launchPatriot(enemyMissile);
     }
 

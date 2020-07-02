@@ -4,10 +4,12 @@ public class BetterRadar {
 
     private PatriotBattery battery;
     private int missiles;
+    private LaunchHandler launchHandler;
 
-    public BetterRadar(PatriotBattery battery, int missiles) {
+    public BetterRadar(PatriotBattery battery, int missiles, LaunchHandler launchHandler) {
         this.battery = battery;
         this.missiles = missiles;
+        this.launchHandler = launchHandler;
     }
 
     public void notice(Scud enemyMissle) {
@@ -15,13 +17,11 @@ public class BetterRadar {
     }
 
     private void launchPatriot(Scud enemyMissle, int missiles) {
-        Runnable missileLauncher = new MissileLauncher(enemyMissle, missiles, battery);
-        Thread launchingThread = new Thread(missileLauncher);
-        launchingThread.start();
-        try {
-            launchingThread.join();
-        } catch (InterruptedException e) {
-            System.out.println("Error while joining launcher thread");
-        }
+        Runnable missileLauncher = () -> {
+            for (int i = 0; i < missiles; i++) {
+                battery.launchPatriot(enemyMissle);
+            }
+        };
+        launchHandler.launch(missileLauncher);
     }
 }
