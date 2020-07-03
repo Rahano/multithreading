@@ -8,17 +8,17 @@ public class Radar {
         this.battery = battery;
     }
 
-    public void notice(Scud enemyMissle) {
-        launchPatriot(enemyMissle);
+    public void notice(Scud enemyMissile) {
+        launchPatriot(enemyMissile);
     }
 
-    private void launchPatriot(Scud enemyMissle) {
+    private void launchPatriot(Scud enemyMissile) {
         Runnable launchPatriotTask = new Runnable() {
 
             @Override
             public void run() {
                 for (int i = 0; i < 10; i++) {
-                    battery.launchPatriot(enemyMissle);
+                    battery.launchPatriot(enemyMissile);
                 }
             }
         };

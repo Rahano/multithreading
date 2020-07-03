@@ -1,19 +1,54 @@
 package edu.iis.mto.multithread;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.*;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.util.Base64;
 
 public class RadarTest {
 
-    @Test
-    public void launchPatriotOnceWhenNoticesAScudMissle() {
-        PatriotBattery batteryMock = mock(PatriotBattery.class);
-        Radar radar = new Radar(batteryMock);
-        Scud enemyMissle = new Scud();
-        radar.notice(enemyMissle);
-        verify(batteryMock).launchPatriot(enemyMissle);
+    private PatriotBattery batteryMock;
+    private RocketLauncher launcherMock;
+    private Scud enemyMissile;
+
+    @BeforeEach
+    public void init()
+    {
+        enemyMissile = new Scud();
+        batteryMock = mock(PatriotBattery.class);
+        launcherMock = mock(RocketLauncher.class);
+        doAnswer(i -> {
+            batteryMock.launchPatriot(enemyMissile);
+            return null;
+        }).when(launcherMock).launch(enemyMissile);
     }
 
+    @RepeatedTest(10)
+    public void launchPatriotZeroTimesWhenNoticesAScudMissile() {
+        int nLaunches = 0;
+        BetterRadar radar = new BetterRadar(launcherMock, nLaunches);
+        radar.notice(enemyMissile);
+        verify(batteryMock, times(nLaunches)).launchPatriot(enemyMissile);
+    }
+
+    @RepeatedTest(10)
+    public void launchPatriotOnceWhenNoticesAScudMissile() {
+        int nLaunches = 1;
+        BetterRadar radar = new BetterRadar(launcherMock, nLaunches);
+        radar.notice(enemyMissile);
+        verify(batteryMock).launchPatriot(enemyMissile);
+    }
+
+    @RepeatedTest(10)
+    public void launchPatriotSixTimesWhenNoticesAScudMissile() {
+        int nLaunches = 6;
+        BetterRadar radar = new BetterRadar(launcherMock, nLaunches);
+        radar.notice(enemyMissile);
+        verify(batteryMock, times(nLaunches)).launchPatriot(enemyMissile);
+    }
 }
